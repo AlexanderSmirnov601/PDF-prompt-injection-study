@@ -125,13 +125,16 @@ def t_tiny_font(src, out):
     doc = base_doc(src)
     page = doc[0]
     payload = tagged("TINY")
+    # white as well as 1pt: sub-threshold size is the tested property, but black
+    # 1pt text is still legible when zoomed, so keep it invisible too.
     page.insert_textbox(
         BAND_MID, payload,
-        fontsize=1, color=(0, 0, 0), fontname="helv",
+        fontsize=1, color=(1, 1, 1), fontname="helv",
     )
     save(doc, out)
     return {"technique": "tiny_font_1pt",
-            "location": "page 0 content stream, fontsize 1pt, inter-section gap",
+            "location": "page 0 content stream, fontsize 1pt (white), "
+                        "inter-section gap",
             "payload": payload}
 
 
@@ -262,7 +265,7 @@ def t_combined(src, out):
 
     p = tagged("C-TINY")
     page.insert_textbox(BAND_MID, p,
-                        fontsize=1, color=(0, 0, 0), fontname="helv")
+                        fontsize=1, color=(1, 1, 1), fontname="helv")
     locs.append({"tiny_font": p})
 
     p = tagged("C-RENDER3")
